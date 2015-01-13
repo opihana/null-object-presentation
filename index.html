@@ -34,6 +34,9 @@
       li {
         margin:1em 0 !important;
       }
+      img {
+        border:none !important;
+      }
     </style>
     <!--[if lt IE 9]>
     <script src="lib/js/html5shiv.js"></script>
@@ -78,16 +81,154 @@
         </section>
         <section data-markdown>
           <script type="text/template">
-            ### Jumpstaring a Blank Canvas
+            ## Kick Off a New Project
             ```
             rails new <project>
             ```
+              * Ask questions at any point
+              * I will email everyone the presentation link
+            </script>
+          </section>
+        <section data-markdown>
+          <script type="text/template">
+            ### Jumpstart my Blank Canvas
 
 
             * Grab my standard laundry list of gems
             * Automate default steps
             </script>
           </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ### <a href="http://guides.rubyonrails.org/rails_application_templates.html" target="_blank">Rails Application Template</a>
+
+            Application templates are simple Ruby files containing DSL for adding gems/initializers etc. to your freshly created Rails project or an existing Rails project.
+            ```
+            rails new blog -m ~/template.rb
+            ```
+
+            </script>
+          </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ### <a href="https://gist.github.com/mwenger1/b85157404e2cad583c5b" target="_blank">My Initial Template</a>
+
+            ```
+            # template.rb
+
+            gem_group :development do
+              gem 'better_errors'
+              gem 'binding_of_caller'
+              gem 'rails-erd'
+              gem 'meta_request'
+            end
+
+            gem_group :development, :test do
+              gem 'rspec-rails'
+              gem 'pry-rails'
+              gem 'pry-debugger'
+              gem 'dotenv-rails'
+              gem 'guard'
+              gem 'guard-rspec'
+              gem 'factory_girl_rails'
+              gem 'faker'
+            end
+
+            gem_group  :test do
+              gem 'capybara'
+            end
+
+            rails generate rspec:install
+
+            after_bundle do
+              git :init
+              git add: "."
+              git commit: %Q{ -m 'Initial commit' }
+            end
+            ```
+            </script>
+          </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ### Debug in the Browser
+
+            ```
+              gem 'better_errors'
+              gem 'binding_of_caller'
+            ```
+            ![](https://camo.githubusercontent.com/3fa6840d5e20236b4f768d6ed4b42421ba7c2f21/68747470733a2f2f692e696d6775722e636f6d2f367a42474141622e706e67)
+
+            </script>
+          </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ### Debug in the Command Line
+
+            ```
+              gem 'pry-rails'
+              gem 'pry-debugger'
+            ```
+            ![](http://blog.zamith.pt/images/pry.png)
+
+            </script>
+          </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ### Test Driven Development (TDD)
+            ![](http://cristinoconnor.com/wp-content/uploads/2013/08/terminal-output.png)
+            </script>
+          </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ### Test Driven Development (TDD)
+            ```
+            gem_group :development
+              gem 'spring'
+              gem 'spring-commands-spec'
+            end
+
+            gem_group :development, :test do
+              gem 'factory_girl_rails'
+              gem 'faker'
+              gem 'guard'
+              gem 'guard-rspec'
+              gem 'rspec-rails'
+            end
+
+            gem_group  :test do
+              gem 'capybara-webkit'
+              gem 'database_cleaner'
+              gem 'shoulda-matchers'
+              gem 'timecop'
+            end
+            ```
+            </script>
+          </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ### Works with Legacy Apps
+
+            ```
+              bin/rake rails:template LOCATION=~/template.rb
+            ```
+
+            ```
+              gem 'rails-erd'
+            ```
+
+            ![](https://camo.githubusercontent.com/65139ce85e3ba9dd20b68a1068f5dab1f6ebdbf4/687474703a2f2f766f6f726d656469612e6769746875622e696f2f7261696c732d6572642f696d616765732f656e746974792d72656c6174696f6e736869702d6469616772616d2e706e67)
+
+            </script>
+          </section>
+
+
         </div>
 
       </div>
