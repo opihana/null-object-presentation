@@ -15,7 +15,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
     <link rel="stylesheet" href="css/reveal.min.css">
-    <link rel="stylesheet" href="css/theme/sky.css" id="theme">
+    <link rel="stylesheet" href="css/theme/night.css" id="theme">
 
     <!-- For syntax highlighting -->
     <link rel="stylesheet" href="lib/css/zenburn.css">
@@ -37,6 +37,10 @@
       img {
         border:none !important;
       }
+      code {
+        font-size: 1.3em !important;
+        line-height: 1em !important;
+      }
     </style>
     <!--[if lt IE 9]>
     <script src="lib/js/html5shiv.js"></script>
@@ -46,341 +50,214 @@
     <div class="reveal">
       <!-- Any section element inside of this container is displayed as a slide -->
       <div class="slides">
+
         <section>
-        <h1>Hoboken Rails Meetup</h1>
-        <p>Grab pizza while we're waiting to kick things off</p>
+          <h1>Null Objects</h1>
+          <p>By Hannah Oppenheimer (@opihana)</p>
+          <p>Ask questions at any point, even though:</p>
+          <img alt="space dog has no idea what he's doing" src="http://weknowgifs.com/wp-content/uploads/2013/11/i-have-no-idea-what-im-doing-dog-gif.gif" />
         </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ## Before Null Object: Conditionals
+            * In OOP, when you want to invoke a method on a object
+            that may be nil, you first have to check that the object is not nil,
+            and then call the method.
+
+            ```
+            if object.nil?
+              do_this
+            else
+              object.do_that
+            end
+            ```
+            </script>
+          </section>
+        <section data-markdown>
+          <script type="text/template">
+            ### What is wrong with this?
+
+            * Quality Ruby favors Duck Typing, which is establishing the suitability of
+            an object for a certain purpose based on the presence of methods
+            assigned to that object, not based on the type of object.
+            * Removes conditional logic from the view, favoring business logic
+            in the models
+          </script>
+          </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ### Solution: Null Object
+            * Definition: an object with defined neutral behavior.
+            * How: Instead of using a null reference, you can use a null
+            object that looks like the real object, but has empty method
+            bodies.
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ### Example: Before Null Object
+            ```
+            if dog.nil?
+              peace_and_quiet
+            else
+              dog.bark
+            end
+            ```
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ### Let's Get Started
+
+            * Don't forget your TDD :)
+
+            ```
+            dog = Dog.new("Fido")
+
+            expect(dog.bark).to eq "woof"
+            ```
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ### Example: Controllers
+
+            * controllers/dog_controller.rb
+
+            ```
+            def show
+              @dog = Dog.new
+            end
+            ```
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ### Example: Models
+
+            * models/users.rb
+
+            ```
+            def dog
+              @dog || NullDog.new
+            end
+            ```
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ### Example: Models (cont.)
+
+            * models/dog.rb
+
+            ```
+            class Dog
+              def initialize(name)
+                @name = name
+              end
+
+              def bark
+                "woof"
+              end
+            end
+            ```
+
+            * models/null_dog.rb
+
+            ```
+            class NullDog
+              def bark
+              end
+            end
+            ```
+            </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+          ### Views
+
+          * dog_review.html.erb
+
+          ```
+          <%= render @user.dog %>
+          ```
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ### Using to_partial_path
+
+            * models/dog.rb
+
+            ```
+            class Dog
+              def initialize(name)
+                @name = name
+              end
+
+              def bark
+                "woof"
+              end
+
+              def to_partial_path
+                "dogs/dog"
+              end
+            end
+            ```
+
+            * dogs/_dog.html.erb
+
+            ```
+            <h1>Reasons I love my dog.</h1>
+            <ul>
+              <li>Cuddles</li>
+              <li>Walking is fun</li>
+              <li>He makes the sound: <%= @dog.bark %></li>
+            </ul>
+            ```
+
+          </script>
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ### Using to_partial_path
+
+            * models/null_dog.rb
+
+            ```
+            class NullDog
+              def bark
+              end
+
+              def to_partial_path
+                "dogs/null_dog"
+              end
+            end
+            ```
+
+            * dogs/_null_dog.html.erb
+
+            ```
+            <h1>Please adopt a dog!</h1>
+            ```
+
+
+            </script>
+          </section>
+
+
         <section>
-        <h3>Housekeeping Before We Start</h3>
-        <ul>
-          <li class="fragment">Bathrooms</li>
-          <li class="fragment">We're a new meetup. Would love your feedback</li>
-          <li class="fragment">Tonight's Sponsor:<br>
-          <img style="border: none; width: 300px;" src="http://epionhealth.com/wp-content/uploads/2014/05/EpionHealthLogo-2001.jpg" />
-          </li>
-        </ul>
-        </section>
-        <section>
-        <h3>Tonight's Gameplan</h3>
-        <ul>
-          <li>Icebreaker to get to know each other</li>
-          <li>PRESENTATION: Kicking Off a New Project</li>
-          <li>Gem "Show and Tell"</li>
-          <li>Ask the group anything</li>
-          <li>Wrap up around 8:45. Can continue the conversation at the bar downstairs</li>
-        </ul>
-        </section>
-        <section>
-        <h3>Ice Breaker Questions</h3>
-        <ul>
-          <li>What's your name?</li>
-          <li>What do you do?</li>
-          <li>Programming Experience<br><small>(i.e "Just graduated dev camp" OR "Been writing Ruby on Rails for 20+ years")</small></li>
-          <li>TMIL - "This Month I Learned"</li>
-        </ul>
-        </section>
-        <section data-markdown>
-          <script type="text/template">
-            ## Kick Off a New Project
-            ```
-            rails new <project>
-            ```
-              * Ask questions at any point
-              * I will email everyone the presentation link
-            </script>
-          </section>
-        <section data-markdown>
-          <script type="text/template">
-            ### Jumpstart A Blank Canvas
-
-
-            * Grab my standard laundry list of gems
-            * Automate default steps
-            </script>
-          </section>
-
-        <section data-markdown>
-          <script type="text/template">
-            ### <a href="http://guides.rubyonrails.org/rails_application_templates.html" target="_blank">Rails Application Template</a>
-
-            Application templates are simple Ruby files containing DSL for adding gems/initializers etc. to your freshly created Rails project or an existing Rails project.
-            ```
-            rails new blog -m ~/template.rb
-            ```
-
-            </script>
-          </section>
-
-        <section data-markdown>
-          <script type="text/template">
-            ### <a href="https://gist.github.com/mwenger1/b85157404e2cad583c5b" target="_blank">My Initial Template</a>
-
-            ```
-            # template.rb
-
-            gem_group :development do
-              gem 'better_errors'
-              gem 'binding_of_caller'
-              gem 'rails-erd'
-              gem 'meta_request'
-            end
-
-            gem_group :development, :test do
-              gem 'rspec-rails'
-              gem 'pry-rails'
-              gem 'pry-debugger'
-              gem 'dotenv-rails'
-              gem 'guard'
-              gem 'guard-rspec'
-              gem 'factory_girl_rails'
-              gem 'faker'
-            end
-
-            gem_group  :test do
-              gem 'capybara'
-            end
-
-            rails generate rspec:install
-
-            after_bundle do
-              git :init
-              git add: "."
-              git commit: %Q{ -m 'Initial commit' }
-            end
-            ```
-            </script>
-          </section>
-
-        <section data-markdown>
-          <script type="text/template">
-            ### Debug in the Browser
-
-            ```
-              gem 'better_errors'
-              gem 'binding_of_caller'
-            ```
-            ![](https://camo.githubusercontent.com/3fa6840d5e20236b4f768d6ed4b42421ba7c2f21/68747470733a2f2f692e696d6775722e636f6d2f367a42474141622e706e67)
-
-            </script>
-          </section>
-
-        <section data-markdown>
-          <script type="text/template">
-          ### <a href="https://github.com/dejan/rails_panel" target="_blank">Rails Panel</a>
-
-            ```
-            gem 'meta_request'
-            ```
-            ![](https://cloud.githubusercontent.com/assets/4494/3090049/917e5378-e586-11e3-9bd4-1db232968126.png)
-
-            </script>
-          </section>
-
-        <section data-markdown>
-          <script type="text/template">
-            ### Debug in the Command Line
-
-            ```
-              gem 'pry-rails'
-              gem 'pry-debugger'
-            ```
-            ![](http://blog.zamith.pt/images/pry.png)
-
-            </script>
-          </section>
-
-        <section data-markdown>
-          <script type="text/template">
-          ### <a href="https://github.com/bkeepers/dotenv" target="_blank">Environment Variables</a>
-
-            ```
-            gem 'dotenv-rails'
-            ```
-
-            ```
-              # .env file
-              GOOGLE_MAPS_KEY=asdfhkjasefea
-              GOOGLE_MAPS_SECRET=a98324jase93
-              FACEBOOK_KEY=ejawerjes2ase32
-              FACEBOOK_PASSWORD=j3ifdsjfasdfas
-            ```
-
-            </script>
-          </section>
-
-        <section data-markdown>
-          <script type="text/template">
-            ### Test Driven Development (TDD)
-            ![](http://cristinoconnor.com/wp-content/uploads/2013/08/terminal-output.png)
-            </script>
-          </section>
-
-        <section data-markdown>
-          <script type="text/template">
-            ### Test Driven Development (TDD)
-            ```
-            gem_group :development
-              gem 'spring'
-              gem 'spring-commands-spec'
-            end
-
-            gem_group :development, :test do
-              gem 'factory_girl_rails'
-              gem 'faker'
-              gem 'guard'
-              gem 'guard-rspec'
-              gem 'rspec-rails'
-            end
-
-            gem_group  :test do
-              gem 'capybara-webkit'
-              gem 'database_cleaner'
-              gem 'shoulda-matchers'
-              gem 'timecop'
-            end
-            ```
-            </script>
-          </section>
-
-        <section data-markdown>
-          <script type="text/template">
-            ### Works with Legacy Apps
-
-            ```
-              bin/rake rails:template LOCATION=~/template.rb
-            ```
-
-            ```
-              gem 'rails-erd'
-            ```
-
-            ![](https://camo.githubusercontent.com/65139ce85e3ba9dd20b68a1068f5dab1f6ebdbf4/687474703a2f2f766f6f726d656469612e6769746875622e696f2f7261696c732d6572642f696d616765732f656e746974792d72656c6174696f6e736869702d6469616772616d2e706e67)
-
-            </script>
-          </section>
-
-
-        <section data-markdown>
-          <script type="text/template">
-            ### <a href="https://github.com/thoughtbot/suspenders" target="_blank">Suspenders</a>
-            A Rails template with our standard defaults, ready to deploy to Heroku.
-
-            ![](https://camo.githubusercontent.com/affcb2f36d3224a70d62c32432cf4ac74f6e7461/687474703a2f2f6d656469612e74756d626c722e636f6d2f315445414d414c7073656835787a66304a7436626377534d6f315f3430302e706e67)
-
-            ![](https://camo.githubusercontent.com/23e90466577ec68e58aa328113e15b756cd0c946/687474703a2f2f74686f75676874626f742e636f6d2f696d616765732f746d2f6c6f676f2e706e67)
-
-
-             </script>
-          </section>
-
-
-        <section data-markdown>
-          <script type="text/template">
-            ### <a href="https://github.com/thoughtbot/suspenders" target="_blank">Lightweight Alternative to Bootstrap</a>
-
-            * <a href="http://bourbon.io/" target="_blank">Bourbon</a> - mixin library for Sass
-            * <a href="http://neat.bourbon.io/" target="_blank">Neat</a> - semantic grid framework
-            * <a href="http://bitters.bourbon.io/" target="_blank">Bitters</a> - scaffold styles, variables and structure
-            * <a href="http://refills.bourbon.io/" target="_blank">Refills</a> - prepackaged patterns and components
-
-            If interested, talk to Hannah about the learning curve.
-
-             </script>
-          </section>
-
-        <section data-markdown>
-          <script type="text/template">
-            ## Paid Services
-           </script>
-        </section>
-
-        <section data-markdown>
-          <script type="text/template">
-            ### <a href="https://github.com/thoughtbot/hound" target="_blank">Codeclimate</a>
-
-            $99/month for small team. Free for open source
-
-            ![](https://d2gn4xht817m0g.cloudfront.net/p/product_screenshots/images/original/000/124/852/124852-08e97f64791f83b7f1ca66fa64c266d2d3aa1543.jpg?1354667810)
-
-             </script>
-          </section>
-
-        <section data-markdown>
-          <script type="text/template">
-            ### <a href="https://codeclimate.com/" target="_blank">Hound</a>
-
-            Style guide reviews for $12/month per repo
-
-            ![](http://images.thoughtbot.com/hound/hound-example-1.png)
-
-             </script>
-          </section>
-
-        <section data-markdown>
-          <script type="text/template">
-            ### <a href="https://codeclimate.com/" target="_blank">Travis</a>
-
-            Continuous Integration: $129/month & open source is free
-
-            ![](http://yizeng.me/assets/images/posts/2013-06-15-results-page-on-travis-ci.gif)
-
-             </script>
-          </section>
-
-        <section data-markdown>
-          <script type="text/template">
-            ### <a href="https://airbrake.io" target="_blank">Airbrake</a>
-
-            Detailed stack traces: $39/month
-
-            ![](http://d41r4qcowzuh5.cloudfront.net/screenshot/r/91578-2194875045.png)
-
-             </script>
-          </section>
-
-
-        <section data-markdown>
-          <script type="text/template">
-            ### Questions???
-             </script>
-          </section>
-
-        <section data-markdown>
-          <script type="text/template">
-            ### What gems/services are missing?
-
-            Feel free to plug in to demo for the group.
-             </script>
-          </section>
-
-        <section data-markdown>
-          <script type="text/template">
-            ### ATGA
-            "Ask the Group Anything"
-
-            * A specific bug you are stuck on
-            * Tooling Questions
-            * Educational Resources
-            * Share what you are learning
-
-             </script>
-          </section>
-
-
-      <section>
-        <h3>Wrapping Up</h3>
-        <ul>
-          <li class="fragment">Feedback. What topics/speakers would you like to see?</li>
-          <li class="fragment"><a href="http://www.meetup.com/Hoboken-Ruby-On-Rails-Meetup/events/219745781/" target="_blank">Next Meetup</a> is February 3rd</li>
-          <li class="fragment">Thanks to Tonight's Sponsor:<br>
-          <img style="border: none; width: 300px;" src="http://epionhealth.com/wp-content/uploads/2014/05/EpionHealthLogo-2001.jpg" />
-          </li>
-          <li class="fragment">Keep the conversation going over drinks at Wicked Wolf</li>
-        </ul>
-        </section>
-
-      <section>
-        <h2>Have a great night!</h2>
+          <h2>Questions?</h2>
         </section>
 
         </div>
