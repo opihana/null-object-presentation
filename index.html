@@ -48,245 +48,123 @@
   </head>
   <body>
     <div class="reveal">
-      <!-- Any section element inside of this container is displayed as a slide -->
       <div class="slides">
 
         <section>
-          <h1>Hoboken Rails Meetup</h1>
-          <p>Grab pizza while we're waiting to kick things off</p>
-        </section>
-        <section>
-          <h3>Housekeeping Before We Start</h3>
+          <h3>Sass</h3>
           <ul>
-            <li class="fragment">Bathrooms</li>
-            <li class="fragment">We're a new meetup. Would love your feedback</li>
-            <li class="fragment">Tonight's Sponsor:<br>
-            <img style="border: none; width: 300px;" src="http://epionhealth.com/wp-content/uploads/2014/05/EpionHealthLogo-2001.jpg" />
+            <li class="fragment">Sass is a scripting language ("Syntactically
+              Awesome Stylesheets") that gets interpreted into CSS</li>
+            <li class="fragment">Original syntax (.sass) is similar to Haml -
+              indentation</li>
+            <li class="fragment">Newer syntax (.scss) is similar to CSS - { }
             </li>
+            <li class="fragment">Written in Ruby</li>
           </ul>
         </section>
+
         <section>
-          <h3>Tonight's Gameplan</h3>
+          <h3>Basic Benefits of Sass</h3>
           <ul>
-            <li>Icebreaker to get to know each other</li>
-            <li>PRESENTATION: Null Object</li>
-            <li>Ask the group anything</li>
-            <li>Wrap up around 8:00.</li>
+            <li>Variables</li>
+            <li>Nesting</li>
+            <li>Mixins</li>
+            <li>Loops</li>
+            <li>Arguments</li>
           </ul>
         </section>
+
         <section>
-          <h3>Ice Breaker Questions</h3>
+          <h3>Cool Ways I Use Sass</h3>
           <ul>
-            <li>What's your name?</li>
-            <li>What do you do?</li>
-            <li>Programming Experience<br><small>(i.e "Just graduated dev camp" OR "Been writing Ruby on Rails for 20+ years")</small></li>
-            <li>If you weren't a programmer, what would you do?</li>
-          </ul>
-        </section>
-
-        <section>
-          <h1>Null Objects</h1>
-          <p>By Hannah Oppenheimer (@opihana)</p>
-          <p>Ask questions at any point, even though:</p>
-          <img alt="space dog has no idea what he's doing" src="http://weknowgifs.com/wp-content/uploads/2013/11/i-have-no-idea-what-im-doing-dog-gif.gif" />
-        </section>
-
-        <section data-markdown>
-          <script type="text/template">
-            ## Before Null Object: Conditionals
-            * In OOP, when you want to invoke a method on a object
-            that may be nil, you first have to check that the object is not nil,
-            and then call the method.
-
-            ```
-            if object.nil?
-              do_this
-            else
-              object.do_that
-            end
-            ```
-            </script>
-          </section>
-        <section data-markdown>
-          <script type="text/template">
-            ### What is wrong with this?
-
-            * Quality Ruby favors Duck Typing, which is establishing the suitability of
-            an object for a certain purpose based on the presence of methods
-            assigned to that object, not based on the type of object.
-            * Removes conditional logic from the view, favoring business logic
-            in the models
-          </script>
-          </section>
-
-        <section data-markdown>
-          <script type="text/template">
-            ### Solution: Null Object
-            * Definition: an object with defined neutral behavior.
-            * How: Instead of using a null reference, you can use a null
-            object that looks like the real object, but has empty method
-            bodies.
-          </script>
-        </section>
-
-        <section data-markdown>
-          <script type="text/template">
-            ### Example: Before Null Object
-            ```
-            if dog.nil?
-              peace_and_quiet
-            else
-              dog.bark
-            end
-            ```
-          </script>
-        </section>
-
-        <section data-markdown>
-          <script type="text/template">
-            ### Let's Get Started
-
-            * Don't forget your TDD :)
-
-            ```
-            dog = Dog.new("Fido")
-
-            expect(dog.bark).to eq "woof"
-            ```
-          </script>
-        </section>
-
-        <section data-markdown>
-          <script type="text/template">
-            ### Example: Controllers
-
-            * controllers/dog_controller.rb
-
-            ```
-            def show
-              @dog = Dog.new
-            end
-            ```
-          </script>
-        </section>
-
-        <section data-markdown>
-          <script type="text/template">
-            ### Example: Models
-
-            * models/users.rb
-
-            ```
-            def dog
-              @dog || NullDog.new
-            end
-            ```
-          </script>
-        </section>
-
-        <section data-markdown>
-          <script type="text/template">
-            ### Example: Models (cont.)
-
-            * models/dog.rb
-
-            ```
-            class Dog
-              def initialize(name)
-                @name = name
-              end
-
-              def bark
-                "woof"
-              end
-            end
-            ```
-
-            * models/null_dog.rb
-
-            ```
-            class NullDog
-              def bark
-              end
-            end
-            ```
-            </script>
-        </section>
-
-        <section data-markdown>
-          <script type="text/template">
-          ### Views
-
-          * dog_review.html.erb
-
-          ```
-          <%= render @user.dog %>
-          ```
-          </script>
-        </section>
-
-        <section data-markdown>
-          <script type="text/template">
-            ### Using to_partial_path
-
-            * models/dog.rb
-
-            ```
-            class Dog
-              def initialize(name)
-                @name = name
-              end
-
-              def bark
-                "woof"
-              end
-
-              def to_partial_path
-                "dogs/dog"
-              end
-            end
-            ```
-
-            * dogs/_dog.html.erb
-
-            ```
-            <h1>Reasons I love my dog.</h1>
+            <li>Variables</li>
             <ul>
-              <li>Cuddles</li>
-              <li>Walking is fun</li>
-              <li>He makes the sound: <%= @dog.bark %></li>
+              <li>Borders</li>
+              <li>Backgrounds</li>
             </ul>
-            ```
-
-          </script>
+            <li>Calculations</li>
+            <ul>
+              <li>Modular Scale</li>
+              <li>Lighten/Darken</li>
+            </ul>
+          </ul>
         </section>
 
         <section data-markdown>
           <script type="text/template">
-            ### Using to_partial_path
-
-            * models/null_dog.rb
+            ### Border Example
 
             ```
-            class NullDog
-              def bark
-              end
-
-              def to_partial_path
-                "dogs/null_dog"
-              end
-            end
+            $base-border-color: shade($light-gray, 8%);
+            $base-border-width: 2px;
+            $base-border: $base-border-width solid $base-border-color;
             ```
+          </script>
+        </section>
 
-            * dogs/_null_dog.html.erb
+        <section>
+          <h3>Backgrounds</h3>
+          <img src="/Users/hoppenheimer/Desktop/sass.png">
+        </section>
+
+        <section>
+         <h3>Backgrounds</h3>
+         <img src="/Users/hoppenheimer/Desktop/svg.png">
+        </section>
+
+        <section data-markdown>
+          <script type="text/template">
+            ### Modular Scale
 
             ```
-            <h1>Please adopt a dog!</h1>
+            $modular-scale-base: 1em;
+            $modular-scale-ratio: $minor-third;
+
+            $base-font-size: 1em;
+            $fine-print-font-size: modular-scale(-1);
+            $note-font-size: modular-scale(-1, 1em, $perfect-fourth);
+            $something-crazy-font-size: modular-scale(-1, 16px, $major-second);
             ```
+          </script>
+        </section>
 
+       <section data-markdown>
+          <script type="text/template">
+          ### Lighten/Darken
 
-            </script>
-          </section>
+          ```
+          $brand-blue-color: #3232ff;
+
+          $blue-dress-color: lighten($brand-blue-color, 55%);
+
+          ```
+          </script>
+       </section>
+
+       <section>
+         <h3>Lighten/Darken</h3>
+         <img src="http://vignette2.wikia.nocookie.net/powerpuff/images/9/9b/PPGZ.png/revision/latest?cb=20140603045541">
+       </section>
+
+       <section data-markdown>
+          <script type="text/template">
+          ### Lighten/Darken
+
+          ```
+          @function dress-color($color) {
+            @return lighten($color, 55%);
+          }
+
+          .dress-object {
+            background-color: $brand-blue-color;
+          }
+
+          .dress-tint-object {
+            background-color: dress-color($brand-blue-color);
+          }
+          ```
+          </script>
+        </section>
 
 
         <section>
