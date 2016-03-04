@@ -1,178 +1,160 @@
 <!doctype html>
 <html lang="en">
-
   <head>
     <meta charset="utf-8">
-
-    <title>Hoboken Rails Meetup</title>
-
-    <meta name="description" content="A framework for easily creating beautiful presentations using HTML">
-    <meta name="author" content="Hakim El Hattab">
-
+    <title>Cloud Typography's affect on the CSSOM</title>
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
-
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-
     <link rel="stylesheet" href="css/reveal.min.css">
-    <link rel="stylesheet" href="css/theme/night.css" id="theme">
-
-    <!-- For syntax highlighting -->
+    <link rel="stylesheet" href="css/theme/solarized.css" id="theme">
     <link rel="stylesheet" href="lib/css/zenburn.css">
-
-    <!-- If the query includes 'print-pdf', include the PDF print sheet -->
-    <script>
-      if( window.location.search.match( /print-pdf/gi ) ) {
-        var link = document.createElement( 'link' );
-        link.rel = 'stylesheet';
-        link.type = 'text/css';
-        link.href = 'css/print/pdf.css';
-        document.getElementsByTagName( 'head' )[0].appendChild( link );
-      }
-    </script>
     <style>
       li {
         margin:1em 0 !important;
       }
       img {
         border:none !important;
+        box-shadow: none !important;
       }
       code {
         font-size: 1.3em !important;
         line-height: 1em !important;
       }
     </style>
-    <!--[if lt IE 9]>
-    <script src="lib/js/html5shiv.js"></script>
-    <![endif]-->
   </head>
   <body>
     <div class="reveal">
       <div class="slides">
 
         <section>
-          <h3>Sass</h3>
+          <h3>Case Study: Cloud Typography blocking the CSSOM</h3>
+          <span>Hannah Oppenheimer</span>
+          <br>
+          <span>Developer, Designer, at Epion Health</span>
+          <br>
+          <span>@opihana on the internets</span>
+        </section>
+
+        <section>
+          <h3>What is she talking about?</h3>
           <ul>
-            <li class="fragment">Sass is a scripting language ("Syntactically
-              Awesome Stylesheets") that gets interpreted into CSS</li>
-            <li class="fragment">Original syntax (.sass) is similar to Haml -
-              indentation</li>
-            <li class="fragment">Newer syntax (.scss) is similar to CSS - { }
-            </li>
-            <li class="fragment">Written in Ruby</li>
+            <li class="fragment">Our biggest unknown problem @ Epion: wifi</li>
+            <li class="fragment">How we troubleshot that</li>
+            <li class="fragment">Cloudtypography was the culprit!</li>
+            <li class="fragment">But why?</li>
+            <li class="fragment">Now what?</li>
           </ul>
         </section>
 
         <section>
-          <h3>Basic Benefits of Sass</h3>
+          <img
+          src="http://pimm.barkpost.com/wp-content/uploads/2014/10/featurednoidea.jpg?auto=enhance&q=30&fit=crop&crop=entropy&w=808&h=808"
+          / width="500px">
+        </section>
+
+        <section>
+          <h3>Wifi issues with Epion's customers</h3>
+          <img src="epion.png" width="500px"/>
+        </section>
+
+        <section>
+          <h3>Wifi issues with Epion's customers</h3>
           <ul>
-            <li>Variables</li>
-            <li>Nesting</li>
-            <li>Mixins</li>
-            <li>Loops</li>
-            <li>Arguments</li>
+            <li class="fragment">Infinite spinners</li>
+            <li class="fragment">Slow wifi, no IT departments</li>
+            <li class="fragment">First solution: set a timeout to have requests retry after 20
+              seconds. If that fails, then trigger an error.</li>
+            <li class="fragment">Helped a lot! But, still, reports of "spinning iPads"</li>
           </ul>
         </section>
 
         <section>
-          <h3>Cool Ways I Use Sass</h3>
+          <h3>How did we troubleshoot this?</h3>
           <ul>
-            <li>Variables</li>
-            <ul>
-              <li>Borders</li>
-              <li>Backgrounds</li>
-            </ul>
-            <li>Calculations</li>
-            <ul>
-              <li>Modular Scale</li>
-              <li>Lighten/Darken</li>
-            </ul>
+            <li>Replicate this! Using a proxy, intercept requests</li>
+            <li>We used Charles Proxy, because look at this logo:</li>
+            <img class="fragment" src="charles.jpeg" width="800px"/>
+            <li class="fragment">We found that the only way to replicate the infinite spin was to
+            place the intercept at cloud.typography.com.</li>
           </ul>
         </section>
 
-        <section data-markdown>
-          <script type="text/template">
-            ### Border Example
-
-            ```
-            $base-border-color: shade($light-gray, 8%);
-            $base-border-width: 2px;
-            $base-border: $base-border-width solid $base-border-color;
-            ```
-          </script>
+        <section>
+          <h3>Not cool, Cloud Typography</h3>
+          <ul>
+            <li>On slow wifi, the request gets stuck on Cloud Typography</li>
+            <li class="fragment">But the page should still load, right??</li>
+            <li class="fragment">Wrong, the CSS Object Model can't be
+              constructed right now, sorry.</li>
+          </ul>
         </section>
 
         <section>
-          <h3>Backgrounds</h3>
-          <img src="/Users/hoppenheimer/Desktop/sass.png">
+          <h3>What da heck is CSSOM?</h3>
+          <ul>
+            <li>When a browser requests a page, it first parses the HTML and
+              constrcuts the CSSOM **before** the first paint occurs.</li>
+            <li class="fragment">As soon as that's all good, the page can render
+            a full view.</li>
+          </ul>
+          <img class="fragment" src="rendertree.png" />
         </section>
 
         <section>
-         <h3>Backgrounds</h3>
-         <img src="/Users/hoppenheimer/Desktop/svg.png">
+          <h3>What da heck is CSSOM?</h3>
+          <ul>
+            <li class="fragment">That's why when you have JS inline, it halts
+              the page load. That's why CSS is in the head and JS is in the
+              footer.</li>
+            <li class="fragment">So, Cloud Typography was super smart, and they
+            load fonts through CSS. It should get rendered first, because we
+            don't want the page to load without the fonts</li>
+            <li class="fragment">Right??</li>
+          </ul>
         </section>
-
-        <section data-markdown>
-          <script type="text/template">
-            ### Modular Scale
-
-            ```
-            $modular-scale-base: 1em;
-            $modular-scale-ratio: $minor-third;
-
-            $base-font-size: 1em;
-            $fine-print-font-size: modular-scale(-1);
-            $note-font-size: modular-scale(-1, 1em, $perfect-fourth);
-            $something-crazy-font-size: modular-scale(-1, 16px, $major-second);
-            ```
-          </script>
-        </section>
-
-       <section data-markdown>
-          <script type="text/template">
-          ### Lighten/Darken
-
-          ```
-          $brand-blue-color: #3232ff;
-
-          $blue-dress-color: lighten($brand-blue-color, 55%);
-
-          ```
-          </script>
-       </section>
-
-       <section>
-         <h3>Lighten/Darken</h3>
-         <img src="http://vignette2.wikia.nocookie.net/powerpuff/images/9/9b/PPGZ.png/revision/latest?cb=20140603045541">
-       </section>
-
-       <section data-markdown>
-          <script type="text/template">
-          ### Lighten/Darken
-
-          ```
-          @function dress-color($color) {
-            @return lighten($color, 55%);
-          }
-
-          .dress-object {
-            background-color: $brand-blue-color;
-          }
-
-          .dress-tint-object {
-            background-color: dress-color($brand-blue-color);
-          }
-          ```
-          </script>
-        </section>
-
 
         <section>
-          <h2>Questions?</h2>
+          <h3>Well, kinda.</h3>
+          <ul>
+            <li class="fragment">Cloud typography requires a stylesheet link in
+            the head. This link directs to Cloud Typography's servers, and then
+            redirects right back to your public fonts folders. This is to
+            authenticate your Cloud typography account to ensure you're not a
+            font snatcher.</li>
+            <li class="fragment">DNS lookup, TCP connection, file download, on
+              every page load</li>
+            <li class="fragment">Fonts will always load on the page, no
+              flickering, and they do so really fast!</li>
+            <li class="fragment">Worst case scenario with Cloud Typography: your
+              page never actually loads. </li>
+          </ul>
+        </section>
+
+        <section>
+          <h3>What now?</h3>
+          <ul>
+            <li class="fragment">Cloud Typography should just link to fonts and
+            stop charging us arms and legs</li>
+            <li class="fragment">Redirect should be browser cached</li>
+            <li class="fragment">(TBD) If you don't need the browser support
+              that Cloud Typography adds, just link to your public fonts
+              folder</li>
+            <li class="fragment">Load it through js like everyone else:
+              <br>
+            <img src="javascript.png" /></li>
+          </ul>
+          <br>
+        </section>
+
+        <section>
+          <span class=fragment">Read more:
+            https://www.tollmanz.com/typography-coms-cssom-blocking-font-loader/</span>
+          <br>
+          <span>@tollmanz</span>
         </section>
 
         </div>
-
       </div>
 
       <script src="lib/js/head.min.js"></script>
