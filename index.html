@@ -2,33 +2,20 @@
 <html lang="en">
   <head>
     <meta charset="utf-8">
-    <title>Cloud Typography's affect on the CSSOM</title>
+    <title>Hackathoning a Salary</title>
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link rel="stylesheet" href="css/reveal.min.css">
-    <link rel="stylesheet" href="css/theme/solarized.css" id="theme">
+    <link rel="stylesheet" href="css/theme/night.css" id="theme">
     <link rel="stylesheet" href="lib/css/zenburn.css">
-    <style>
-      li {
-        margin:1em 0 !important;
-      }
-      img {
-        border:none !important;
-        box-shadow: none !important;
-      }
-      code {
-        font-size: 1.3em !important;
-        line-height: 1em !important;
-      }
-    </style>
   </head>
+
   <body>
     <div class="reveal">
       <div class="slides">
-
         <section>
-          <h3>Case Study: Cloud Typography blocking the CSSOM</h3>
+          <h3>Hackathoning a Salary</h3>
           <span>Hannah Oppenheimer</span>
           <br>
           <span>Developer, Designer, at Epion Health</span>
@@ -37,158 +24,174 @@
         </section>
 
         <section>
-          <h3>What is she talking about?</h3>
-          <ul>
-            <li class="fragment">Our biggest unknown problem @ Epion: wifi</li>
-            <li class="fragment">How we troubleshot that</li>
-            <li class="fragment">Cloudtypography was the culprit!</li>
-            <li class="fragment">But why?</li>
-            <li class="fragment">Now what?</li>
-          </ul>
+          <h3>Persona</h3>
+          <p class="fragment">24 yrs</p>
+          <p class="fragment">Non-profit</p>
+          <p class="fragment">"Jane of all trades"</p>
         </section>
 
         <section>
-          <img
-          src="http://pimm.barkpost.com/wp-content/uploads/2014/10/featurednoidea.jpg?auto=enhance&q=30&fit=crop&crop=entropy&w=808&h=808"
-          / width="500px">
+          <h3>User Stories</h3>
+          <p class="fragment">I want more money.</p>
+          <p class="fragment">I want to learn a new language.</p>
+          <p class="fragment">I want to build things.</p>
+          <p class="fragment">I want to help people.</p>
         </section>
 
         <section>
-          <h3>Wifi issues with Epion's customers</h3>
-          <img src="epion.png" width="500px"/>
+          <h3>What is a Hackathon?</h3>
+          <p class="fragment">Virtual or in-person event where individuals or
+          teams compete to build the best prototype or product according to a
+          specific set of criteria.</p>
+          <video class="fragment" src="hackathons.mov" autoplay="true"/>
         </section>
 
         <section>
-          <h3>Wifi issues with Epion's customers</h3>
-          <ul>
-            <li class="fragment">Infinite spinners</li>
-            <li class="fragment">Slow wifi, no IT departments</li>
-            <li class="fragment">First solution: set a timeout to have requests retry after 20
-              seconds. If that fails, then trigger an error.</li>
-            <li class="fragment">Helped a lot! But, still, reports of "spinning iPads"</li>
-          </ul>
+          <h3>How do I choose a Hackathon?</h3>
+          <p class="fragment">Prize money</p>
+          <p class="fragment">Interesting problem to solve</p>
+          <p class="fragment">Reasonable limitions</p>
+          <p class="fragment">Flaked when the weather was good</p>
         </section>
 
         <section>
-          <h3>How did we troubleshoot this?</h3>
-          <ul>
-            <li>Replicate this! Using a proxy, intercept requests</li>
-            <li>We used Charles Proxy, because look at this logo:</li>
-            <img class="fragment" src="charles.jpeg" width="800px"/>
-            <li class="fragment">We found that the only way to replicate the infinite spin was to
-            place the intercept at cloud.typography.com.</li>
-          </ul>
+          <h3>Do I have to, like, talk to ppl?</h3>
+          <p class="fragment">Formed teams based on skill compatibility</p>
+          <p class="fragment">Small teams are more likely to win.</p>
+          <img alt="hammock" class="fragment" src="hammock.gif" />
         </section>
 
         <section>
-          <h3>Not cool, Cloud Typography</h3>
-          <ul>
-            <li>On slow wifi, the request gets stuck on Cloud Typography</li>
-            <li class="fragment">But the page should still load, right??</li>
-            <li class="fragment">Wrong, the CSS Object Model can't be
-              constructed right now, sorry.</li>
-          </ul>
+          <h3>Do I have to be an expert coder?</h3>
+          <p class="fragment">The less you know, the better</p>
+          <img class="fragment" alt="brain" src="brain.gif" />
         </section>
 
         <section>
-          <h3>What da heck is CSSOM?</h3>
-          <ul>
-            <li>When a browser requests a page, it first parses the HTML and
-              constrcuts the CSSOM **before** the first paint occurs.</li>
-            <li class="fragment">As soon as that's all good, the page can render
-            a full view.</li>
-          </ul>
-          <img class="fragment" src="rendertree.png" />
+          <h3>But, really, how do I get free money?</h3>
+          <p class="fragment">Design Sprint with no time/no money</p>
         </section>
 
         <section>
-          <h3>What da heck is CSSOM?</h3>
-          <ul>
-            <li class="fragment">That's why when you have JS inline, it halts
-              the page load. That's why CSS is in the head and JS is in the
-              footer.</li>
-            <li class="fragment">So, Cloud Typography was super smart, and they
-            load fonts through CSS. It should get rendered first, because we
-            don't want the page to load without the fonts</li>
-            <li class="fragment">Right??</li>
-          </ul>
+          <h3>Design Sprint</h3>
+          <div class="fragment">
+            <h5>Phase 1: Understand</h5>
+            <p>Researched the judges</p>
+            <p>Read thoroughly through the judging criteria</p>
+            <p>Asked questions before doing anything</p>
+            <p>Read the fine print.</p>
+          </div>
         </section>
 
         <section>
-          <h3>Well, kinda.</h3>
-          <ul>
-            <li class="fragment">Cloud typography requires a stylesheet link in
-            the head. This link directs to Cloud Typography's servers, and then
-            redirects right back to your public fonts folders. This is to
-            authenticate your Cloud typography account to ensure you're not a
-            font snatcher.</li>
-            <li class="fragment">DNS lookup, TCP connection, file download, on
-              every page load</li>
-            <li class="fragment">Fonts will always load on the page, no
-              flickering, and they do so really fast!</li>
-            <li class="fragment">Worst case scenario with Cloud Typography: your
-              page never actually loads. </li>
-          </ul>
+          <h3>Design Sprint</h3>
+          <div class="fragment">
+            <h5>Phase 2: Diverge</h5>
+            <p>Sketch, whiteboard, make oragami</p>
+            <p>Phone a friend</p>
+          </div>
         </section>
 
         <section>
-          <h3>What now?</h3>
-          <ul>
-            <li class="fragment">Cloud Typography should just link to fonts and
-            stop charging us arms and legs</li>
-            <li class="fragment">Redirect should be browser cached</li>
-            <li class="fragment">(TBD) If you don't need the browser support
-              that Cloud Typography adds, just link to your public fonts
-              folder</li>
-            <li class="fragment">Load it through js like everyone else:
-              <br>
-            <img src="javascript.png" /></li>
-          </ul>
-          <br>
+          <h3>Design Sprint</h3>
+          <div class="fragment">
+            <h5>Phase 3: Converge</h5>
+            <p>Lowest fidelity + highest reward</p>
+            <img src="spreadsheet.png" class="fragment" />
+          </div>
         </section>
 
         <section>
-          <span class=fragment">Read more:
-            https://www.tollmanz.com/typography-coms-cssom-blocking-font-loader/</span>
-          <br>
-          <span>@tollmanz</span>
+          <h3>Design Sprint</h3>
+          <div class="fragment">
+            <h5>Phase 4: Build</h5>
+            <p>Lowest fidelity + highest reward</p>
+            <p>Delegate tasks</p>
+          </div>
         </section>
 
-        </div>
+        <section>
+          <h3>So, what did you make?</h3>
+          <div class="fragment">
+            <p>App that connects bedridden children in oncology units via
+            video chat through their portal</p>
+            <h5>NYP Hospital Hackathon</h5>
+          </div>
+          <div class="fragment">
+            <p>App that provides support for people who know someone with
+            depression</p>
+            <h5>ghg Healthcare Hackathon</h5>
+          </div>
+          <div class="fragment">
+            <p>Clinical trial matching tool that connects volunteers to
+            clinical trials</p>
+            <h5>Red Hat OpenShift Hackathon</h5>
+          </div>
+          <div class="fragment">
+            <p>Employee travel data visualizations</p>
+            <h5>GSA Hackathon</h5>
+          </div>
+          <div class="fragment">
+            <p>Diddly squat</p>
+            <h5>The hackathon in Croatia that wasn't real</h5>
+          </div>
+        </section>
+
+        <section>
+          <h3>Design Sprint</h3>
+          <h5>Phase 5: Test</h5>
+          <p class="fragment">Okay, not this one</p>
+        </section>
+
+        <section>
+          <h3>What's it like being a woman at a hackathon?</h3>
+          <p class="fragment">You're probably good at design and presenting</p>
+          <p class="fragment">You probably don't need business cards</p>
+          <p class="fragment">Obviously, you're not a judge</p>
+        </section>
+
+        <section>
+          <video src="user_stories.mov" autoplay=true />
+        </section>
+
+        <section>
+          <h3>:claps: from me to these folks</h3>
+          <p class="fragment">Mike Wenger</p>
+          <p class="fragment">Cecy from Refresh Austin</p>
+          <p class="fragment">Keep Ruby Wierd</p>
+        </section>
       </div>
+    </div>
 
-      <script src="lib/js/head.min.js"></script>
-      <script src="js/reveal.min.js"></script>
+    <script src="lib/js/head.min.js"></script>
+    <script src="js/reveal.min.js"></script>
 
-      <script>
+    <script>
+      // Full list of configuration options available here:
+      // https://github.com/hakimel/reveal.js#configuration
+      Reveal.initialize({
+        controls: true,
+        progress: true,
+        history: true,
+        center: true,
 
-        // Full list of configuration options available here:
-        // https://github.com/hakimel/reveal.js#configuration
-        Reveal.initialize({
-          controls: true,
-          progress: true,
-          history: true,
-          center: true,
+        theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+        transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
 
-          theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
-          transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
+        // Parallax scrolling
+        // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
+        // parallaxBackgroundSize: '2100px 900px',
 
-          // Parallax scrolling
-          // parallaxBackgroundImage: 'https://s3.amazonaws.com/hakim-static/reveal-js/reveal-parallax-1.jpg',
-          // parallaxBackgroundSize: '2100px 900px',
-
-          // Optional libraries used to extend on reveal.js
-          dependencies: [
-          { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
-          { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-          { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
-          { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
-          { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
-          { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
-          ]
-        });
-
-      </script>
-
-    </body>
-  </html>
+        // Optional libraries used to extend on reveal.js
+        dependencies: [
+        { src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+        { src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+        { src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+        { src: 'plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
+        { src: 'plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+        { src: 'plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
+        ]
+      });
+    </script>
+  </body>
+</html>
